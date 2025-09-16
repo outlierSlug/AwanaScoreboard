@@ -1,0 +1,286 @@
+/* Overall page container */
+.scorekeeper-container {
+  display: flex;
+  flex-direction: column; /* header on top, main content below */
+  align-items: center;
+  padding: 2rem;
+}
+
+/* Main content: game controls + team buttons side by side */
+.scorekeeper-main {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem; /* space between columns */
+  margin-top: 1.5rem; /* space below the header */
+  justify-content: center;
+  align-items: flex-start; /* align top of both columns */
+  width: 100%;
+  
+}
+
+/* Session Header */
+.session-header {
+    flex: 1;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+}
+
+/* Left column: game controls */
+.game-controls-box {
+  flex: 1; /* take up available space */
+  max-width: 300px;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.game-mode-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.4rem;
+}
+
+.confirm-round-btn {
+    margin-top: 0.5rem;
+}
+
+
+.team-buttons-box {
+  flex: 1;
+  max-width: 400px;
+  padding: 1rem;
+
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+/* Team Buttons container*/
+.team-buttons-grid {
+  flex: 1;
+  max-width: 400px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2x2 grid */
+  gap: 1rem; /* spacing between buttons */
+  padding: 1rem;
+  overflow: visible;
+  align-items: center;
+}
+
+/* Team Buttons general style */
+.team-btn {
+  position: relative;
+  padding: 1rem;
+  aspect-ratio: 1 / 1;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  transform-origin: center;
+  text-transform: capitalize;
+}
+
+/* Hover effect */
+.team-btn:hover {
+  transform: scale(1.02);
+}
+
+/* Team colors */
+.team-btn.red {
+  background-color: #ff0000;
+  color: white;
+}
+
+.team-btn.blue {
+  background-color: #176beb;
+  color: white;
+}
+
+.team-btn.green {
+  background-color: #22c566;
+  color: white;
+}
+
+.team-btn.yellow {
+  background-color: #f1da55;
+  color: black;
+}
+
+
+/* Disabled team buttons */
+.team-btn:disabled {
+  cursor: not-allowed;
+  transform: none; /* remove hover animation */
+  filter: brightness(80%);
+  opacity: 0.4;
+}
+
+.team-btn.tie-selected {
+  outline: 2px dashed black;
+}
+
+/* Current order list */
+.current-order {
+  margin-top: 1rem;
+}
+
+.current-order li {
+  text-transform: capitalize;
+}
+
+.current-order ol {
+  padding-left: 1.2rem;
+}
+
+.placement-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: white;
+  color: black;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+
+/* Control bar for buttons */
+.button-controls-bar {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  /*justify-content: center;*/
+}
+
+.team-label {
+  text-transform: capitalize;
+}
+
+.round-history-box {
+    margin-top: 1.5rem;
+    flex: 1;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Container */
+.tie-mode-toggle {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.dq-mode-toggle {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.dq-clickable {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* The switch wrapper */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+/* Hide the checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider background */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.3s;
+}
+
+/* Slider knob */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+/* Checked state */
+input:checked + .slider {
+  background-color: #4caf50; /* green on */
+}
+
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+/* Disabled state */
+input:disabled + .slider {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+/* .control-button {
+  background: #eee;
+  color: #333;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.control-button:hover {
+  background: #ddd;
+}
+
+.control-button.undo {
+  background: #ff6666;
+  color: white;
+}
+
+.control-button.undo:hover {
+  background: #e05555;
+}
+
+.control-button.reset {
+  background: #999;
+  color: white;
+}
+
+.control-button.reset:hover {
+  background: #777;
+} */

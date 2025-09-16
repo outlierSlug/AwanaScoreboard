@@ -1,0 +1,57 @@
+/* TEAM COLORS */
+.team-red {
+  background-color: #f8d7da; /* light red */
+}
+
+.team-blue {
+  background-color: #d0e7ff; /* light blue */
+}
+
+.team-green {
+  background-color: #d4edda; /* light green */
+}
+
+.team-yellow {
+  background-color: #fff3cd; /* light yellow */
+}
+
+/* Container to center everything */
+.scoreboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers title and table horizontally */
+  padding: 1rem;
+}
+
+.scoreboard-container h1 {
+  margin-bottom: 0.5rem; /* adds space below the title */
+}
+
+.scoreboard-container table {
+  margin-top: 0.5rem; /* adds space above the table */
+}
+
+/* Table container */
+table {
+  width: auto;
+  border-collapse: collapse;
+  margin-top: 1rem auto;
+  font-family: system-ui, sans-serif;
+}
+
+/* Table header */
+thead th {
+  text-align: auto;
+  padding: 0.5rem;
+  background-color: #f0f0f0;
+  font-weight: 600;
+  border: 1px solid #ccc
+}
+
+/* Table rows */
+tbody td {
+  padding: 0.5rem 0.75rem;
+  text-align: auto;
+  border-bottom: 1px solid #eee;
+  border: 1px solid #ccc
+}

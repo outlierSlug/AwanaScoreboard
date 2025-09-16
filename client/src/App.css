@@ -1,0 +1,25 @@
+/* Navigation container */
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem; /* space between buttons */
+  padding: 1rem 0;
+}
+
+/* Navigation links */
+.nav a {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+/* Hover effect */
+.nav a:hover {
+  transform: scale(1.05); /* subtle zoom effect */
+}
+
+
