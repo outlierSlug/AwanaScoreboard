@@ -15,7 +15,14 @@
   justify-content: center;
   align-items: flex-start; /* align top of both columns */
   width: 100%;
-  
+}
+
+.round-history-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem; /* space below the header */
+  justify-content: center;
+  align-items: flex-start; /* align top of both columns */
 }
 
 /* Session Header */
@@ -31,6 +38,7 @@
 /* Left column: game controls */
 .game-controls-box {
   flex: 1; /* take up available space */
+  width: calc(40% - 1rem);
   max-width: 300px;
   padding: 1rem;
   background-color: #f5f5f5;
@@ -52,9 +60,9 @@
 
 .team-buttons-box {
   flex: 1;
+  width: calc(40% - 1rem);
   max-width: 400px;
   padding: 1rem;
-
   background-color: #f5f5f5;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -113,7 +121,6 @@
   color: black;
 }
 
-
 /* Disabled team buttons */
 .team-btn:disabled {
   cursor: not-allowed;
@@ -166,15 +173,6 @@
 
 .team-label {
   text-transform: capitalize;
-}
-
-.round-history-box {
-    margin-top: 1.5rem;
-    flex: 1;
-    padding: 1rem;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* Container */
@@ -252,35 +250,94 @@ input:disabled + .slider {
   cursor: not-allowed;
 }
 
-/* .control-button {
-  background: #eee;
-  color: #333;
-  font-weight: bold;
-  border: none;
+/* Text-only team colors - for round history */
+.team-text-red { color: #dc2626; }
+.team-text-blue { color: #2563eb; }
+.team-text-yellow { color: #dbba00; }
+.team-text-green { color: #16a34a; }
+
+.standings-box{
+  width: 300px;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.standings-box h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.round-history-box {
+  width: 500px;
+  flex: auto;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.round-history-box h3 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Round cards */
+.round-card {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
   border-radius: 8px;
-  padding: 8px 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+/* Round content in one line */
+.round-card-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+round-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+
+
+/* Standings table */
+.standings-box table {
+  width: flex;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+
+.delete-round-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1.2rem;
   cursor: pointer;
-  transition: background 0.2s ease;
+  padding: 0 0.5rem;
+  border-radius: 4px;
 }
 
-.control-button:hover {
-  background: #ddd;
+.delete-round-btn:hover {
+  color: #dc2626;
+  background-color: rgba(220, 38, 38, 0.1);
 }
 
-.control-button.undo {
-  background: #ff6666;
-  color: white;
+
+.session-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
 }
 
-.control-button.undo:hover {
-  background: #e05555;
-}
-
-.control-button.reset {
-  background: #999;
-  color: white;
-}
-
-.control-button.reset:hover {
-  background: #777;
-} */

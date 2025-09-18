@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import type { Selection } from "../../types/types";
 
 
@@ -17,13 +18,40 @@ type GameControlsProps = {
   setTieGroup: (v: string[]) => void;
   dqMode: boolean;
   setDqMode: React.Dispatch<React.SetStateAction<boolean>>;
+  isConfirming: boolean;
 };
 
-
+type Game = {
+  id: string;
+  name: string;
+  notes?: string;
+};
 
 function GameControls({ gameMode, setGameMode, roundActive, startRound, confirmRound, cancelRound, placements, setPlacements, tieMode, setTieMode, tieGroup, setTieGroup,
-    dqMode, setDqMode
+    dqMode, setDqMode, isConfirming
  }: GameControlsProps) {
+
+    const [games, setGames] = useState<Game[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Get games for the session
+    useEffect(() => {
+        const fetchGames = async () => {
+        try {
+            const res = await fetch('http://localhost:4000/games');
+            if (!res.ok) throw new Error('Failed to fetch games');
+            
+            const data = await res.json();
+            setGames(data.games);
+        } catch (err) {
+            console.error('Failed to load games:', err);
+        } finally {
+            setIsLoading(false);
+        }
+        };
+
+        fetchGames();
+    }, []); // Only fetch once on mount
 
     const toggleDQ = (teamId: string) => {
     setPlacements(prev =>
@@ -45,12 +73,18 @@ function GameControls({ gameMode, setGameMode, roundActive, startRound, confirmR
         </label>
         <div className="game-mode-row">
             <select
-            value={gameMode || ""}
-            onChange={(e) => setGameMode(e.target.value)}
+                value={gameMode || ""}
+                onChange={(e) => setGameMode(e.target.value)}
+                disabled={isLoading || roundActive}
             >
-            <option value="" disabled hidden>-- Select --</option>
-            <option value="mode1">Baton Relay</option>
-            <option value="mode2">Three-Legged Race</option>
+                <option value="" disabled hidden>
+                    {isLoading ? "Loading..." : "-- Select Game --"}
+                </option>
+                {games.map(game => (
+                    <option key={game.id} value={game.id} title={game.notes}>
+                    {game.name}
+                    </option>
+                ))}
             </select>
 
             {/* Round controls */}
@@ -111,8 +145,6 @@ function GameControls({ gameMode, setGameMode, roundActive, startRound, confirmR
         </div>
         )}
 
-        
-
         {/* Current Order */}
         {roundActive && placements.length > 0 && (
         <div className="current-order">
@@ -148,7 +180,9 @@ function GameControls({ gameMode, setGameMode, roundActive, startRound, confirmR
         
         {roundActive && placements.flat().length === 4 && (
             <div className="confirm-round-btn">
-            <button onClick={confirmRound}>Confirm Round</button>
+            <button onClick={confirmRound} disabled={isConfirming}>
+                {isConfirming ? "Confirming..." : "Confirm Round"}
+            </button>
             </div>
         )}
         

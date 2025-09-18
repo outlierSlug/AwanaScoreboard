@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
+
 import HomePage from "./pages/HomePage";
 import Scoreboard from "./pages/Scoreboard";
 import Scorekeeper from "./pages/Scorekeeper";
@@ -19,7 +20,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/scoreboard" element={<Scoreboard />} />
-          <Route path="/scorekeeper" element={<Scorekeeper />} />
+          <Route path="/scorekeeper/:sessionId" element={<Scorekeeper />} />
+          <Route path="*" element={<div>404 - Not Found</div>} />
         </Routes>
       </Router>
     );
