@@ -1,0 +1,120 @@
+/// Generate the Prisma Client used to interact with the DB
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Define the DB connection 
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Top-level Church organization (optional)
+model Church {
+  id         String     @id
+  name       String
+  divisions  Division[]
+  createdAt  DateTime   @default(now())
+}
+
+/// Divisions (Sparks, T&T)
+model Division {
+  id         String     @id 
+  name       String
+  churchId   String?
+  church     Church?    @relation(fields: [churchId], references: [id])
+  teams      Team[]
+  sessions   Session[]
+  createdAt  DateTime   @default(now())
+  @@unique([name, churchId])
+}
+
+/// Teams (Red/Blue/Yellow/Green)
+model Team {
+  id           String      @id 
+  divisionId   String
+  division     Division    @relation(fields: [divisionId], references: [id])
+  color        String
+  createdAt    DateTime    @default(now())
+  sessionScores SessionScore[]
+  results      RoundResult[]
+  @@unique([divisionId, color])
+}
+
+/// Session: one game-night for a division (ex: T&T on 2023-10-06)
+model Session {
+  id            String       @id 
+  divisionId    String
+  division      Division     @relation(fields: [divisionId], references: [id])
+  date          DateTime     @default(now())
+  status        String       @default("setup") // setup | running | finished
+  createdBy     String?
+  teamScores    SessionScore[] @relation("SessionToScores")
+  rounds        Round[]      @relation("SessionToRounds")
+  createdAt     DateTime     @default(now())
+  @@index([divisionId, date])
+}
+
+/// Tracks team participation and scores in a session
+model SessionScore {
+  id            String    @id @default(uuid())
+  sessionId     String
+  session       Session   @relation("SessionToScores", fields: [sessionId], references: [id], onDelete: Cascade)
+  teamId        String
+  team          Team      @relation(fields: [teamId], references: [id])
+  memberCount   Int       @default(0)
+  totalPoints   Float     @default(0)
+  roundsPlayed  Int       @default(0)
+  lastUpdated   DateTime  @updatedAt
+  createdAt     DateTime  @default(now())
+
+  @@unique([sessionId, teamId])
+  @@index([sessionId])
+}
+
+/// Game catalog (Three-legged race, Relay, etc.)
+model Game {
+  id        String   @id 
+  name      String
+  notes     String?
+  rounds    Round[]
+  createdAt DateTime @default(now())
+  @@unique([name])
+}
+
+/// Round: one play of a game inside a session
+model Round {
+  id          String       @id 
+  sessionId   String
+  session     Session      @relation("SessionToRounds", fields: [sessionId], references: [id], onDelete: Cascade)
+  gameId      String
+  game        Game         @relation(fields: [gameId], references: [id])
+  roundNumber Int
+  notes       String?
+  results     RoundResult[] @relation("RoundToResults")
+  createdAt   DateTime     @default(now())
+  @@index([sessionId, roundNumber])
+}
+
+/// Result per team per round — this is authoritative (contains points awarded)
+model RoundResult {
+  id            String   @id 
+  roundId       String
+  round         Round    @relation("RoundToResults", fields: [roundId], references: [id], onDelete: Cascade)
+  teamId        String
+  team          Team     @relation(fields: [teamId], references: [id])
+  place         Int?
+  pointsAwarded Float
+  note          String?
+  createdAt     DateTime @default(now())
+  @@unique([roundId, teamId])
+}
+
+/// Audit log (store JSON payloads for edits as TEXT)
+model AuditLog {
+  id        String   @id 
+  action    String
+  user      String?
+  payload   String   // JSON stored as TEXT
+  createdAt DateTime @default(now())
+}
